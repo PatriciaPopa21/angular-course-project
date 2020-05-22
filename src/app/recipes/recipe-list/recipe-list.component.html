@@ -6,17 +6,6 @@
 <hr>
 <div class="row">
     <div class="col-xs-12">
-        <a href="#" class="list-group-item clearfix" *ngFor="let recipe of recipes">
-            <div class="pull-left">
-                <h4 class="list-group-item-heading">{{ recipe.name }}</h4>
-                <p class="list-group-item-text">{{ recipe.description }}</p>
-            </div>
-            <span class="pull right">
-                <!-- these below are just alternative versions of setting the src attribute -->
-                <!-- <img src="{{ recipe.imagePath }}" alt="Image unavailable" class="img-responsive" style="max-height: 50px;"> -->
-                <img [src]="recipe.imagePath" alt="Image unavailable" class="img-responsive" style="max-height: 50px;">
-            </span>
-        </a>
-        <app-recipe-item></app-recipe-item>
+        <app-recipe-item *ngFor="let recipeEl of recipes" [recipe] = "recipeEl"></app-recipe-item>
     </div>
 </div>
