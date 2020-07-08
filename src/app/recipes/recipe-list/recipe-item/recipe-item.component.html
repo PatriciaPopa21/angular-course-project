@@ -1,4 +1,6 @@
-<a href="#" (click)="onSelected()" class="list-group-item clearfix">
+<!-- style="cursor: pointer;" transforms the cursor into a hand logo 
+everytime we hover over or click on a recipe item-->
+<a (click)="onSelected()" style="cursor: pointer;" class="list-group-item clearfix">
     <div class="pull-left">
         <h4 class="list-group-item-heading">{{ recipe.name }}</h4>
         <p class="list-group-item-text">{{ recipe.description }}</p>
