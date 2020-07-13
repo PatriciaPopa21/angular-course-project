@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import { Recipe } from './recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class RecipeService {
+    recipesChanged = new Subject<Recipe[]>();
+
     private recipes: Recipe[] = [
         new Recipe("Mom's spaghetti", "A recipe by Eminem", "https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/spaghetti-puttanesca_1.jpg", [new Ingredient('Meat', 1), new Ingredient('Pasta', 2), new Ingredient('Veggies mix', 1)]),
         new Recipe("Big Burger", "Just delicious", "", [new Ingredient('Meat', 1), new Ingredient('Buns', 2)])
@@ -22,5 +25,15 @@ export class RecipeService {
 
     getRecipe(id: number) {
         return this.recipes[id];
+    }
+
+    addRecipe(recipe: Recipe) {
+        this.recipes.push(recipe);
+        this.recipesChanged.next(this.recipes.slice());
+    }
+
+    updateRecipe(index: number, newRecipe: Recipe) {
+        this.recipes[index] = newRecipe;
+        this.recipesChanged.next(this.recipes.slice());
     }
 }
