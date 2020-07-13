@@ -14,7 +14,8 @@
             <div class="row">
                 <div class="col-xs-12">
                     <button class="btn btn-success" type="submit" [disabled]="!f.valid">{{ editMode ? 'Update' : 'Add' }}</button>
-                    <button class="btn btn-danger" type="button">Delete</button>
+                    <!-- only display the Delete button if we are in edit mode (otherwise nothing is selected, so we have nothing to delete) -->
+                    <button class="btn btn-danger" type="button" (click)="onDelete()" *ngIf="editMode">Delete</button>
                     <button class="btn btn-primary" type="button" (click)="onClear()">Clear</button>
                 </div>
             </div>
