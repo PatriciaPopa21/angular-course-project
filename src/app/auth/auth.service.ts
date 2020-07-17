@@ -18,6 +18,7 @@ export interface AuthResponseData {
 export class AuthService {
     /* With BehaviorSubject, even if you don't subscribe to the subject from the very beginning, you will later still have access to the current value of the user */
     user = new BehaviorSubject<User>(null);
+    private tokenExpirationTimer: any;
 
     constructor(private http: HttpClient, private router: Router) { }
 
@@ -60,6 +61,18 @@ export class AuthService {
     logout() {
         this.user.next(null);
         this.router.navigate(['/auth']);
+        localStorage.removeItem('userData');
+        if (this.tokenExpirationTimer) {
+            clearTimeout(this.tokenExpirationTimer);
+        }
+        this.tokenExpirationTimer = null;
+    }
+
+    /* automatically invalidate the token once it expires; this method needs to be called in all the places where we perform a login */
+    autoLogout(expirationDuration: number) {
+        this.tokenExpirationTimer = setTimeout(() => {
+            this.logout();
+        }, expirationDuration); // you can put here something like 2000 to test if the method works
     }
 
     autoLogin() {
@@ -82,6 +95,10 @@ export class AuthService {
         /* here we are actually calling the getter called token, but in JS, the syntax "get methodName()" allows us to access that method as a property */
         if (loadedUser.token) {
             this.user.next(loadedUser);
+            const expirationDuration =
+                new Date(userData._tokenExpirationDate).getTime() -
+                new Date().getTime();
+            this.autoLogout(expirationDuration);
         }
     }
 
@@ -113,6 +130,7 @@ export class AuthService {
             expirationDate
         );
         this.user.next(user);
+        this.autoLogout(expiresIn * 1000);
         localStorage.setItem('userData', JSON.stringify(user)); // this stores our user data to Chrome's tools > Application tab > Local Storage
     }
 }
