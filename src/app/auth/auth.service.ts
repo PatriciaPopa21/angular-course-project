@@ -62,6 +62,29 @@ export class AuthService {
         this.router.navigate(['/auth']);
     }
 
+    autoLogin() {
+        const userData: {
+            email: string;
+            id: string;
+            _token: string;
+            _tokenExpirationDate: string;
+        } = JSON.parse(localStorage.getItem('userData'));
+        if (!userData) {
+            return;
+        }
+
+        const loadedUser = new User(
+            userData.email,
+            userData.id, userData._token,
+            new Date(userData._tokenExpirationDate)
+        );
+
+        /* here we are actually calling the getter called token, but in JS, the syntax "get methodName()" allows us to access that method as a property */
+        if (loadedUser.token) {
+            this.user.next(loadedUser);
+        }
+    }
+
     private handleError(errorRes: HttpErrorResponse) {
         let errorMessage = 'An unknown error occurred!';
         if (!errorRes.error || !errorRes.error.error) {
@@ -90,5 +113,6 @@ export class AuthService {
             expirationDate
         );
         this.user.next(user);
+        localStorage.setItem('userData', JSON.stringify(user)); // this stores our user data to Chrome's tools > Application tab > Local Storage
     }
 }
