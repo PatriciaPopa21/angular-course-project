@@ -10,7 +10,7 @@ export class RecipeResolverService implements Resolve<Recipe[]> {
     constructor(private dataStorageService: DataStorageService, private recipeService: RecipeService) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        // preventing the resolver from overriding our recipes, if we already have some
+        // preventing the resolver from overwriting our recipes, if we already have some
         const recipes = this.recipeService.getRecipes();
 
         if (recipes.length > 0) {
