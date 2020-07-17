@@ -8,18 +8,20 @@ import { Subject } from 'rxjs';
 export class RecipeService {
     recipesChanged = new Subject<Recipe[]>();
 
-    private recipes: Recipe[] = [
-        new Recipe("Mom's spaghetti", "A recipe by Eminem", "https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/spaghetti-puttanesca_1.jpg", [new Ingredient('Meat', 1), new Ingredient('Pasta', 2), new Ingredient('Veggies mix', 1)]),
-        new Recipe("Big Burger", "Just delicious", "https://jumpcomm.ams3.cdn.digitaloceanspaces.com/sites/siriospa/uploads/2019/07/20455sirio-burger-king.jpg", [new Ingredient('Meat', 1), new Ingredient('Buns', 2)])
-    ];
+    // private recipes: Recipe[] = [
+    //     new Recipe("Mom's spaghetti", "A recipe by Eminem", "https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/spaghetti-puttanesca_1.jpg", [new Ingredient('Meat', 1), new Ingredient('Pasta', 2), new Ingredient('Veggies mix', 1)]),
+    //     new Recipe("Big Burger", "Just delicious", "https://jumpcomm.ams3.cdn.digitaloceanspaces.com/sites/siriospa/uploads/2019/07/20455sirio-burger-king.jpg", [new Ingredient('Meat', 1), new Ingredient('Buns', 2)])
+    // ];
 
-    constructor(private shoppingListService: ShoppingListService) {}
+    private recipes: Recipe[] = [];
+
+    constructor(private shoppingListService: ShoppingListService) { }
 
     getRecipes() {
         return this.recipes.slice();
     }
 
-    addIngredientsToShoppingList(ingredients: Ingredient[]){
+    addIngredientsToShoppingList(ingredients: Ingredient[]) {
         this.shoppingListService.addIngredients(ingredients);
     }
 
