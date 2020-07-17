@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError, BehaviorSubject } from 'rxjs';
 import { User } from './user.model';
+import { Router } from '@angular/router';
 
 export interface AuthResponseData {
     idToken: string;
@@ -18,7 +19,7 @@ export class AuthService {
     /* With BehaviorSubject, even if you don't subscribe to the subject from the very beginning, you will later still have access to the current value of the user */
     user = new BehaviorSubject<User>(null);
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private router: Router) { }
 
     signup(email: string, password: string) {
         return this.http.post<AuthResponseData>(
@@ -54,6 +55,11 @@ export class AuthService {
                 +resData.expiresIn
             )
         }));
+    }
+
+    logout() {
+        this.user.next(null);
+        this.router.navigate(['/auth']);
     }
 
     private handleError(errorRes: HttpErrorResponse) {
