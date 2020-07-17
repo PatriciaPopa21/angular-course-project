@@ -27,30 +27,25 @@ export class DataStorageService {
     fetchRecipes() {
         // take 1 value from this subscription and then automatically unsubscribe
         /* exhaustMap waits for the user Observable to complete, then gives us that user and finally we return a new observable which will replace this one in the chain*/
-        return this.authService.user.pipe(
-            take(1),
-            exhaustMap(user => {
-                return this.httpClient
-                    .get<Recipe[]>(
-                        'https://ng-course-recipe-book-510eb.firebaseio.com/recipes.json',
-                        {
-                            params: new HttpParams().set('auth', user.token)
-                        }
-                    );
-            }),
-            map(recipes => {
-                return recipes.map(recipe => {
-                    /* now, if we save a recipe without ingredients, persist and then fetch it, our app 
-                    will no longer break because of lack of "ingredients" property on the retrieved recipe */
-                    return {
-                        ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : []
-                    };
-                });
-            }),
-            tap(recipes => {
-                this.recipeService.setRecipes(recipes);
-            })
 
-        );
+        return this.httpClient
+            .get<Recipe[]>(
+                'https://ng-course-recipe-book-510eb.firebaseio.com/recipes.json',
+            )
+            .pipe(
+                map(recipes => {
+                    return recipes.map(recipe => {
+                        /* now, if we save a recipe without ingredients, persist and then fetch it, our app 
+                        will no longer break because of lack of "ingredients" property on the retrieved recipe */
+                        return {
+                            ...recipe,
+                            ingredients: recipe.ingredients ? recipe.ingredients : []
+                        };
+                    });
+                }),
+                tap(recipes => {
+                    this.recipeService.setRecipes(recipes);
+                })
+            );
     }
 }
