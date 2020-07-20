@@ -6,9 +6,9 @@ import { RecipeItemComponent } from './recipe-list/recipe-item/recipe-item.compo
 import { RecipeStartComponent } from './recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RecipesRoutingModule } from './recipes-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     declarations: [
@@ -24,9 +24,9 @@ import { RecipesRoutingModule } from './recipes-routing.module';
         /* allow us access to *ngIf and *ngFor, just like BrowserModule; however, that one can only
         be important in one place (in this case, the app.module.ts file), so that here we need to use
         an altrnative, which is CommonModule*/
-        CommonModule,
         ReactiveFormsModule,
-        RecipesRoutingModule
+        RecipesRoutingModule,
+        SharedModule
     ]
 })
 export class RecipesModule { }
