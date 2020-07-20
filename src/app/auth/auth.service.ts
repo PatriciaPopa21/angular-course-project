@@ -115,7 +115,7 @@ export class AuthService {
                 errorMessage = 'This email does not exist';
                 break;
             case 'INVALID_PASSWORD': // its best to handle the email and password with the same error, for security reasons; here, we wanted to be more specific, just because we are practicing
-                errorMessage = 'This password does not exist';
+                errorMessage = 'This password is not correct';
                 break;
         }
         return throwError(errorMessage);
