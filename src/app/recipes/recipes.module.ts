@@ -8,6 +8,7 @@ import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RecipesRoutingModule } from './recipes-routing.module';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { ReactiveFormsModule } from '@angular/forms';
         be important in one place (in this case, the app.module.ts file), so that here we need to use
         an altrnative, which is CommonModule*/
         CommonModule,
-        ReactiveFormsModule 
+        ReactiveFormsModule,
+        RecipesRoutingModule
     ],
     exports: [
         RecipesComponent,
