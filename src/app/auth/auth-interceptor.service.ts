@@ -7,6 +7,8 @@ import { take, exhaustMap } from 'rxjs/operators';
 export class AuthInterceptorService implements HttpInterceptor {
     constructor(private authService: AuthService) { }
 
+    /* "take" takes one value from this subscription and then automatically unsubscribe; "exhaustMap" waits for the user Observable to complete, 
+    then gives us that user and finally we return a new observable which will replace this one in the chain */
     intercept(req: HttpRequest<any>, next: HttpHandler) {
         return this.authService.user.pipe(
             take(1),

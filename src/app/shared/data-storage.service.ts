@@ -25,9 +25,6 @@ export class DataStorageService {
     }
 
     fetchRecipes() {
-        // take 1 value from this subscription and then automatically unsubscribe
-        /* exhaustMap waits for the user Observable to complete, then gives us that user and finally we return a new observable which will replace this one in the chain*/
-
         return this.httpClient
             .get<Recipe[]>(
                 'https://ng-course-recipe-book-510eb.firebaseio.com/recipes.json',
