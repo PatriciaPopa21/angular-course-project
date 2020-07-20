@@ -20,9 +20,9 @@ import { CoreModule } from './core.module';
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    AppRoutingModule,
     RecipesModule,
     ShoppingListModule,
     SharedModule,
