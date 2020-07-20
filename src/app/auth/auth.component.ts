@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ComponentFactoryResolver } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService, AuthResponseData } from './auth.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { AlertComponent } from '../shared/alert/alert.component';
 
 @Component({
     selector: 'app-auth',
@@ -13,7 +14,7 @@ export class AuthComponent {
     isLoading = false;
     error: string = null;
 
-    constructor(private authService: AuthService, private router: Router) { }
+    constructor(private authService: AuthService, private router: Router, private componentFactoryResolver: ComponentFactoryResolver) { }
 
     onSwitchMode() {
         this.isLoginMode = !this.isLoginMode;
@@ -46,11 +47,19 @@ export class AuthComponent {
                 console.log(errorMessage);
                 this.error = errorMessage;
                 this.isLoading = false;
+                this.showErrorAlert(errorMessage);
             }
         );
     }
 
     onHandleError() {
         this.error = null;
+    }
+
+    private showErrorAlert(message: string) {
+        /* This will not throw a compilation error, since it's valid typescript code; however, it will fail, because it's not valid Angular code */
+        // const alertComp = new AlertComponent();
+        const alertCmpFactory = this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
+        
     }
 }
