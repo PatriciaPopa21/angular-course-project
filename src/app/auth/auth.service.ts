@@ -21,7 +21,7 @@ export interface AuthResponseData {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
     /* With BehaviorSubject, even if you don't subscribe to the subject from the very beginning, you will later still have access to the current value of the user */
-    user = new BehaviorSubject<User>(null);
+    // user = new BehaviorSubject<User>(null);
     private tokenExpirationTimer: any;
 
     constructor(
