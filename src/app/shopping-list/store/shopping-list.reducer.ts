@@ -1,23 +1,34 @@
 import { Ingredient } from '../../shared/ingredient.model';
 import * as ShoppingListActions from './shopping-list.actions'
 
-const initialState = {
+export interface State {
+    ingredients: Ingredient[],
+    editedIngredient: Ingredient,
+    editedIngredientIndex: number
+}
+
+export interface AppState {
+    shoppingList: State
+}
+
+const initialState: State = {
     ingredients: [
         new Ingredient('Apples', 5),
         new Ingredient('Tomatoes', 10)
-    ]
+    ],
+    editedIngredient: null,
+    editedIngredientIndex: -1
 };
 
 export function shoppingListReducer(
-    state = initialState,
+    state: State = initialState,
     action: ShoppingListActions.ShoppingListActions
 ) {
     switch (action.type) {
         case ShoppingListActions.ADD_INGREDIENT:
             return {
-                /* here, we use the spread operator to copy the old state, by splitting it into its attributes 
-                (the only one we have so far is ingredients, but it's a good practice anyway); 
-                we do this to make sure we don't override the other fields (in case we had any other) */
+                /* here, we use the spread operator to copy the old state, by splitting it into its attributes; 
+                we do this to make sure we don't override the other fields in the state object */
                 ...state,
                 ingredients: [...state.ingredients, action.payload]
             };
