@@ -1,0 +1,13 @@
+<!-- style="cursor: pointer;" transforms the cursor into a hand logo 
+everytime we hover over or click on a recipe item-->
+<a style="cursor: pointer;" [routerLink]="[index]" routerLinkActive="active" class="list-group-item clearfix">
+    <div class="pull-left">
+        <h4 class="list-group-item-heading">{{ recipe.name }}</h4>
+        <p class="list-group-item-text">{{ recipe.description }}</p>
+    </div>
+    <span class="pull right">
+        <!-- these below are just alternative versions of setting the src attribute -->
+        <!-- <img src="{{ recipe.imagePath }}" alt="Image unavailable" class="img-responsive" style="max-height: 50px;"> -->
+        <img [src]="recipe.imagePath" alt="Image unavailable" class="img-responsive" style="max-height: 50px;">
+    </span>
+</a>
