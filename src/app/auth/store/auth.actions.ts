@@ -21,4 +21,10 @@ export class Logout implements Action {
     readonly type = LOGOUT;
 }
 
-export type AuthActions = Login | Logout
+export class LoginStart implements Action {
+    readonly type = LOGIN_START;
+
+    constructor(public payload: { email: string, password: string }) { }
+}
+
+export type AuthActions = Login | Logout | LoginStart
