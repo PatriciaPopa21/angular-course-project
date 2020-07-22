@@ -4,6 +4,7 @@ import { switchMap, catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { of } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 export interface AuthResponseData {
     idToken: string;
@@ -14,6 +15,7 @@ export interface AuthResponseData {
     registered?: boolean; // the ? indicates this is optional
 }
 
+@Injectable()
 export class AuthEffects {
     /* NgRx will automatically subscribe for us; also, unlike other observables, the actions$ observable is not allowed to die, 
     hence we cannot handle errors with cathError() the way we would normally do */
@@ -28,13 +30,23 @@ export class AuthEffects {
                         email: authData.payload.email,
                         password: authData.payload.password,
                         returnSecureToken: true
-                    }
-                ).pipe(catchError(error => {
-                    /* here we must return a non-error observable, so that our stream doesn't die! */
-                    of();
-                }), map(resData => {
-                    of();
-                }))
+                    })
+                .pipe(
+                    map(resData => {
+                        const expirationDate = new Date(new Date().getTime() + +resData.expiresIn * 1000);
+                        return of(
+                            new AuthActions.Login({
+                                email: resData.email,
+                                userId: resData.localId,
+                                token: resData.idToken,
+                                expirationDate: expirationDate
+                            }));
+                    }),
+                    catchError(error => {
+                        /* here we must return a non-error observable, so that our stream doesn't die! */
+                        return of();
+                    })
+                )
         }),
     );
 
