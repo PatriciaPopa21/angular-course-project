@@ -11,7 +11,7 @@ const initialState = {
     user: null,
     authError: null,
     loading: false
-}
+};
 
 export function authReducer(
     state = initialState,
